@@ -47,7 +47,7 @@ export default async function autoRegister(
   return {
     status: 200,
     message: {
-      token: await generateToken(newUser),
+      token: await generateToken(newUser.id),
       user: newUser,
     },
   };

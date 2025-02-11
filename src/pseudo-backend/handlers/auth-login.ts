@@ -41,7 +41,7 @@ export default async function authLogin(
   return {
     status: 200,
     message: {
-      token: await generateToken(user),
+      token: await generateToken(user.id),
       user,
     },
   };

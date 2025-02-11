@@ -9,7 +9,7 @@ import { verifyUser } from '%/lib/auth';
 
 // 引数が 2 のときは認証情報が必須
 type HandlerAuthNeeded<Q, T, R> = (
-  user: User,
+  userId: string,
   request: Request<Q, T>
 ) => Promise<R>;
 
@@ -65,9 +65,9 @@ export default {
       };
     }
 
-    let user;
+    let userId;
     try {
-      user = await verifyUser(header?.token);
+      userId = await verifyUser(header?.token);
     } catch {
       return {
         status: 403,
@@ -76,7 +76,7 @@ export default {
     }
 
     // 適当なエラーを投げると 500 番になる
-    return await handler(user, request).catch((err: any) => ({
+    return await handler(userId, request).catch((err: any) => ({
       status: 500,
       message: err,
     }));
