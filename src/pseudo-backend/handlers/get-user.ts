@@ -6,6 +6,7 @@ import type { Response } from '#/response';
 import { useDB } from '%/lib/db';
 
 export default async function getUser(
+  _userId: string,
   request: Request<{ id: string }, {}>
 ): Promise<Response<Row<User>>> {
   const db = useDB();

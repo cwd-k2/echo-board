@@ -1,10 +1,11 @@
-import type { User } from '#/user';
 import type { Request } from '#/request';
 import type { Response } from '#/response';
 
 import getUser from '%/handlers/get-user';
 import authLogin from '%/handlers/auth-login';
 import authRegister from '%/handlers/auth-register';
+import postPost from './post-post';
+import getPostList from './get-post-list';
 import { verifyUser } from '%/lib/auth';
 
 // 引数が 2 のときは認証情報が必須
@@ -36,6 +37,8 @@ const handlerMap = new Map<string, Handler<any, any, any>>([
   ['GET /user', getUser],
   ['POST /auth/login', authLogin],
   ['POST /auth/register', authRegister],
+  ['POST /post', postPost],
+  ['GET /post/list', getPostList],
 ]);
 
 export default {
@@ -58,7 +61,7 @@ export default {
       }));
     }
 
-    if (header?.token) {
+    if (!header?.token) {
       return {
         status: 401,
         message: 'Not authorized',

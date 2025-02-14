@@ -64,6 +64,7 @@ class DB {
     });
   }
 
+  // 指定した行をひとつ取ってくる
   async fetchSingle<T>(
     name: string,
     by: { index: string; value: IDBValidKey }
@@ -84,6 +85,7 @@ class DB {
     });
   }
 
+  // 条件に合う行をいくつか取ってくる
   async fetchRanged<T>(
     name: string,
     by: {
@@ -97,32 +99,20 @@ class DB {
     const st = tx.objectStore(name);
     const ix = st.index(by.index);
 
-    // デフォルトは 20 件
-    by.limit ??= 20;
-    // デフォルトは昇順
-    by.direction ??= 'next';
-
     return new Promise((resolve, reject) => {
-      const request = ix.openCursor(by.range, by.direction);
+      const request = ix.openCursor(by.range, by.direction ?? 'next');
       const results: T[] = [];
 
-      request.addEventListener(
-        'success',
-        (event) => {
-          const target = event.target as IDBRequest;
-          const cursor: IDBCursorWithValue | null = target
-            ? target.result
-            : null;
+      request.addEventListener('success', (event) => {
+        const cursor = (event.target as IDBRequest)?.result;
 
-          while (cursor && results.length < 20) {
-            results.push(cursor.value);
-            cursor.continue();
-          }
-
+        if (cursor && results.length < (by.limit ?? 20)) {
+          results.push(cursor.value);
+          cursor.continue();
+        } else {
           resolve(results);
-        },
-        { once: true }
-      );
+        }
+      });
 
       request.addEventListener('error', () => reject(request.error), {
         once: true,
