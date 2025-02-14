@@ -52,6 +52,8 @@ watchEffect(() => {
 .main-contents {
   height: 100%;
   width: 100%;
-  padding: 64px 20px 0;
+  padding: 64px 20px;
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 </style>

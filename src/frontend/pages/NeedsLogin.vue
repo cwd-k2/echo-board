@@ -99,7 +99,6 @@ async function doRegister() {
       width: 100%;
       height: 32px;
       padding: 0 16px;
-      outline: none;
       line-height: 32px;
       border-bottom: solid 1px #444;
 

@@ -32,6 +32,12 @@ a[disabled='true'] {
   pointer-events: none;
 }
 
+input[type='text'],
+input[type='password'],
+textarea {
+  outline: none;
+}
+
 #app {
   height: 100%;
   width: 100%;
