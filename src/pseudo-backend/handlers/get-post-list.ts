@@ -48,14 +48,17 @@ export default async function getPostList(
       if (user === undefined) throw new Error('Failed to fetch user');
       return {
         id: post.id,
-        createdAt: post.createdAt,
-        updatedAt: post.updatedAt,
         content: post.content,
         user: {
+          id: user.id,
           accountName: user.accountName,
           displayName: user.displayName,
           description: user.description,
+          createdAt: user.createdAt,
+          updatedAt: user.updatedAt,
         },
+        createdAt: post.createdAt,
+        updatedAt: post.updatedAt,
       };
     }),
   };
